@@ -24,8 +24,13 @@
 
 ## Description
 
-Para essa API eu decidi criar uma integração baseada em Schedule e Events. Utilizei rotinas para criar e buscar os *deals* na API do *Pipedrive*. A cada 10 segundos o método **scheduledCreateDeal**, que está dentro do **CreateDealUseCase** é disparado pela rotina do Nest e faz uma requisição para inserir um novo *deal*. Todos os dias às 17h, o método **emitEventToCreateOrderDeals** que está dentro de **ListWonDealsUseCase**, será disparado para buscar todos os *deals* no *Pipedrive*, após receber a resposta, ele irá emitir um evento que será escutado pelo método **execute** que está dentro de **CreateOrderUseCase**. Esse evento tem como função informar ao método que o escuta, que é o momento de criar os *pedido* na API do *Bling*. Se a requisição de inserção no *Bling* for realizada com sucesso, os pedidos serão armazenados no banco de dados, onde será validado se já existe um registro para o dia, caso sim, o valor total será atualizado e caso negativo, será criado um novo.
+Para essa API eu decidi criar uma integração baseada em Schedule e Events. Utilizei rotinas para criar e buscar os *deals* na API do *Pipedrive*. A cada 10 segundos o método `scheduledCreateDeal`, que está dentro do `CreateDealUseCase` é disparado pela rotina do Nest e faz uma requisição para inserir um novo *deal*. Todos os dias às 17h, o método `emitEventToCreateOrderDeals` que está dentro de `ListWonDealsUseCase`, será disparado para buscar todos os *deals* no *Pipedrive*, após receber a resposta, ele irá emitir um evento que será escutado pelo método `execute` que está dentro de `CreateOrderUseCase`. Esse evento tem como função informar ao método que o escuta, que é o momento de criar os *pedido* na API do *Bling*. Se a requisição de inserção no *Bling* for realizada com sucesso, os pedidos serão armazenados no banco de dados, onde será validado se já existe um registro para o dia, caso sim, o valor total será atualizado e caso negativo, será criado um novo.
 
+Para realizar testes nessa API, recomendo alterar a `CronExpression` do método `emitEventToCreateOrderDeals` para `EVERY_10_SECONDS`, dessa forma poderão validar de maneira mais rápida o fluxo.
+
+Deixei alguns endpoints para criação e listagem manual de *deals* no *Pipedrive*, caso desejem validar algo.
+
+Os testes criados, foram apenas unitários, para os providers compartilhados e para a rota principal.
 
 ## Installation
 
@@ -36,7 +41,6 @@ $ yarn install
 ## Running the app
 
 ```bash
-
 # watch mode - dev
 $ npm run start:dev
 ```
