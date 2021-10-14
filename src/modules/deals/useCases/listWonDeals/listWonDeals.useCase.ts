@@ -17,7 +17,7 @@ export class ListWonDealsUseCase
     private eventEmitter: EventEmitter2,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_5PM)
   private async emitEventToCreateOrderDeals(): Promise<void> {
     const deals = await this.dealsProvider.list();
     this.eventEmitter.emit('order.create', deals);

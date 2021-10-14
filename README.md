@@ -24,49 +24,29 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Para essa API eu decidi criar uma integração baseada em Schedule e Events. Utilizei rotinas para criar e buscar os *deals* na API do *Pipedrive*. A cada 10 segundos o método **scheduledCreateDeal**, que está dentro do **CreateDealUseCase** é disparado pela rotina do Nest e faz uma requisição para inserir um novo *deal*. Todos os dias às 17h, o método **emitEventToCreateOrderDeals** que está dentro de **ListWonDealsUseCase**, será disparado para buscar todos os *deals* no *Pipedrive*, após receber a resposta, ele irá emitir um evento que será escutado pelo método **execute** que está dentro de **CreateOrderUseCase**. Esse evento tem como função informar ao método que o escuta, que é o momento de criar os *pedido* na API do *Bling*. Se a requisição de inserção no *Bling* for realizada com sucesso, os pedidos serão armazenados no banco de dados, onde será validado se já existe um registro para o dia, caso sim, o valor total será atualizado e caso negativo, será criado um novo.
+
 
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
 
-# watch mode
+# watch mode - dev
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ yarn test
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
